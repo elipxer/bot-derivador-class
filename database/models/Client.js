@@ -82,6 +82,10 @@ const Clientsv2 = sequelize.define('clients', {
     client_menu_response: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    client_bot_last_code:{
+        type:DataTypes.STRING,
+        allowNull:true
     }
 });
 

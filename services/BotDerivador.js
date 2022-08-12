@@ -11,6 +11,15 @@ class BotDerivador {
       this.app = app;
       this.options = [];
       this.mensaje = '';
+      this.selectedOption=null;
+  }
+
+  get getSelectedOption(){
+    return this.selectedOption;
+  }
+
+  set setSelectedOption(option){
+    this.selectedOption=option;
   }
 
   get getMensaje(){
@@ -98,7 +107,9 @@ class BotDerivador {
     this.options.forEach(option=>{
         if(respuesta.includes(option.option_ident)){
             console.log("Encontró un match");
+            this.selectedOption=option.option_ident;
             flag = true;
+            return flag;
         }
     });
     return flag;

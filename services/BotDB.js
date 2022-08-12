@@ -26,6 +26,19 @@ class BotDB{
           };
         }
       };
+
+      insertaClienteSibila = async function(fields){
+        const queryInsertCliente = await Clientsv2.create({
+          client_uuid:fields.uuid,
+          client_name:fields.name,
+          client_crm_id:fields.crmId,
+          client_wpp:fields.wpp,
+          client_organization_ident:fields.org,
+          client_bot_last_code:fields.botOption
+        });
+        console.log(queryInsertCliente);
+        return true;
+      }
 }
 
 module.exports = BotDB
