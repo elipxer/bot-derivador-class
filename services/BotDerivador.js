@@ -114,7 +114,7 @@ class BotDerivador {
     return flag;
   }
 
-  removeStageClient = async function (whatsapp, app) {
+  removeStageClient = async function () {
     const query = await StageClientsv2.destroy({
       where: {
         client_wpp: this.origen,
