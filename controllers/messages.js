@@ -18,7 +18,8 @@ const recibeMensaje = async (req = request, res = response) => {
       if (queryUserDB.status) {//SÍ EXISTE EN LA BASE DE DATOS
         console.log("OUT: usuario existe en BD de clientes", queryUserDB.client);
         return res.status(200).json({ msg: "OUT: usuario existe en BD de clientes" });
-      } else if(origen !== "0000000" && nombre !== "nadie"){//AQUI REALMENTE EMPIEZA LA IMPLEMENTACIÓN DEL BOT
+      }
+      else if(origen !== "0000000" && nombre !== "nadie"){//AQUI REALMENTE EMPIEZA LA IMPLEMENTACIÓN DEL BOT
         console.log("IMPLEMENTACIÓN DEL BOT");
         const bot_derivador = new BotDerivador(origen,nombre,app,contenido);
         const consultaBot = await bot_derivador.validaBotPrendido();
@@ -26,7 +27,7 @@ const recibeMensaje = async (req = request, res = response) => {
           console.log("MARCA TIENE BOT PRENDIDO");//LA MARCA/SECTOR TIENE EL BOT PRENDIDO
           const queryStageClient = await bot_derivador.buscaClienteStageClients();
           const queryOptions = await bot_derivador.buscaWelcomeOptionsApp();
-          if(queryStageClient!==null){
+          if(queryStageClient!==null){//Encuentra al cliente en la tabla de stage clients
             console.log("Se encuentra cliente stage client");//Si encuentra al cliente en la tabla de stageClient
             const queryValida = await bot_derivador.validaRespuestaCliente(contenido);
             if(queryValida){
@@ -38,11 +39,10 @@ const recibeMensaje = async (req = request, res = response) => {
               sector:app,
               botOption:bot_derivador.getSelectedOption
             }
-            const queryInsertaSibila = await zoho.insertaSibila(fields);
-            //lo inserta en el crm
-            console.log(JSON.stringify(queryInsertaSibila));
+            const queryZoho = await zoho.insertaCRM(fields);
+            console.log("QUERY INSERT ZOHO",queryZoho);
+            const querySibila = await zoho.insertaSibila(queryZoho,fields);
             const queryBorraStage = await bot_derivador.removeStageClient();
-            console.log("query borrado",queryBorraStage);
             return res.status(200).send("Hemos recibido su respuesta, en breve nos contactaremos con usted.");
             }else{
               console.log("No es respuesta esperada");
@@ -63,7 +63,7 @@ const recibeMensaje = async (req = request, res = response) => {
       return res.status(500).json({ msg: "Hubo un error, contactar al admin" });
     }
   }
-  return res.status(200).send("ok");
+  return res.status(200).send("Mensaje recibido.");
 };
 
 module.exports = {

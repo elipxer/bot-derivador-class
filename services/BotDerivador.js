@@ -1,4 +1,3 @@
-const Clientsv2 = require("../database/models/Client");
 const Gupshupsv2 = require("../database/models/Gupshup");
 const StageClientsv2 = require("../database/models/StageClients");
 const WelcomeOptionsv2 = require("../database/models/WelcomeOptions");
